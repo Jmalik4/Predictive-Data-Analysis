@@ -1,0 +1,350 @@
+---
+title: "Predictive Data Analysis"
+subtitle: "<span style='color:black'>Predictive Analytics refers to the field that applies various quantitative methods on data to make real-time predictions.</span>"
+date: "2023-10-30"
+output: 
+  ioslides_presentation:
+   trasition: faster
+   widescreen: true
+   smaller: true
+---
+<style type="text/css">
+/* Heading Fonts */
+h1, h2, h3, h4, h5, h6 {
+  color: black;
+  font-family: "Modern Computer Roman"
+}
+
+
+body, p, div {
+  color: black;
+  font-family: "Times New Roman"
+  
+}
+
+slides > slide.title-slide hgroup h1 {
+  color: #800080; 
+}
+
+h2 {
+  color: #800080;
+}
+</style>
+
+.gdbar img{
+width: 170px !important;
+height: 100px !important;
+margin: 4px 4px;
+}
+
+.gdbar{
+width: 200px !important;
+height: 100px !important;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction to the Dataset 
+
+### Exploring Student Stress
+
+This dataset dives into the factors affecting the stress levels of students. It comprises approximately 20 essential features carefully chosen from various aspects of students' lives, scientifically categorized into Psychological, Physiological, Social, Environmental, and Academic factors.
+
+### Key Aspects of the Dataset:
+
+Psychological Factors: Understanding mental well-being through features like 'anxiety_level,' 'self_esteem,' 'mental_health_history,' and 'depression.'
+
+Physiological Factors: Exploring physical health indicators including 'headache,' 'blood_pressure,' 'sleep_quality,' and 'breathing_problem.'
+
+Environmental Factors: Analyzing the impact of surroundings with variables such as 'noise_level,' 'living_conditions,' 'safety,' and 'basic_needs.'
+
+Academic Factors: Determining academic pressures and concerns using 'academic_performance,' 'study_load,' 'teacher_student_relationship,' and 'future_career_concerns.'
+
+Social Factors: Understanding peer dynamics and social support through 'social_support,' 'peer_pressure,' 'extracurricular_activities,' and 'bullying.'
+
+## Structure
+
+In this dataset, we explore various aspects of students' lives to understand what causes stress. By using predictive analysis, we want to find patterns and make predictions. Our goal is to help create a better and supportive environment for students.
+
+
+
+```{r}
+Stresslevels_in_students <- read.csv("StressLevelDataset.csv")
+str(Stresslevels_in_students)
+```
+
+## Psychological Factors (Column Description)
+
+<span style="font-size: 1.6em;">**anxiety_level:** Measures the level of anxiety a student experiences, ranging from 0 (low anxiety) to 21 (high anxiety).(HADS-A Score)
+
+<span style="font-size: 1.6em;">**self_esteem:** Indicates the level of self-esteem of the student, ranging from 0 (low self-esteem) to 30 (high self-esteem).</span>
+
+<span style="font-size: 1.6em;">**mental_health_history:** Binary indicator (0 or 1) representing whether the student has a history of mental health issues.</span>
+
+<span style="font-size: 1.6em;">**depression:** Measures the degree of depression the student is facing, ranging from 0 (low depression) to 27 (high depression).</span>
+
+## Physiological Factors (Column Description)
+
+<span style="font-size: 1.6em;">**headache:** Frequency of headaches experienced by the student, ranging from 0 (no headaches) to 5 (frequent headaches).
+
+<span style="font-size: 1.6em;">**blood_pressure:** Blood pressure level of the student, with values ranging from 1 (low) to 3 (high).
+
+<span style="font-size: 1.6em;">**sleep_quality:** Rates the quality of the student's sleep on a scale from 0 (poor quality) to 5 (excellent quality).
+
+<span style="font-size: 1.6em;">**breathing_problem:** Indicates whether the student faces breathing problems, with values 0 (no) or 1 (yes).
+
+## Environmental Factors (Column Description)
+
+<span style="font-size: 1.6em;">**noise_level:** Perception of noise levels in the student's environment, ranging from 0 (low noise) to 5 (high noise).
+
+<span style="font-size: 1.6em;">**living_conditions:** Assessment of the student's living conditions, with values from 0 (poor conditions) to 5 (excellent conditions).
+
+<span style="font-size: 1.6em;">**safety:** Perceived safety level of the student's surroundings, ranging from 0 (unsafe) to 5 (very safe).
+
+<span style="font-size: 1.6em;">**basic_needs:** Satisfaction level of the student's basic needs, from 0 (not satisfied) to 5 (fully satisfied).
+
+## Academic Factors (Column Description)
+
+<span style="font-size: 1.6em;">**academic_performance:** Student's self-perceived academic performance, with values from 0 (poor) to 5 (excellent).
+
+<span style="font-size: 1.6em;">**study_load:** Student's perception of their study workload, ranging from 0 (light) to 5 (heavy).
+
+<span style="font-size: 1.6em;">**teacher_student_relationship:** Quality of relationship with teachers, with values from 0 (poor) to 5 (excellent).
+
+<span style="font-size: 1.6em;">**future_career_concerns:** Concerns about future career prospects, ranging from 0 (low concern) to 5 (high concern).
+
+## Social Factors (Column Description)
+<span style="font-size: 1.6em;">**social_support:** Level of social support experienced by the student, from 0 (low support) to 3 (high support).
+
+<span style="font-size: 1.6em;">**peer_pressure:** Influence of peer pressure on the student, with values from 0 (low pressure) to 5 (high pressure).
+
+<span style="font-size: 1.6em;">**extracurricular_activities:** Student's participation in extracurricular activities, ranging from 0 (no participation) to 5 (active participation).
+
+<span style="font-size: 1.6em;">**bullying:** Experience of bullying by the student, with values from 0 (no bullying) to 5 (frequent bullying).
+
+<span style="font-size: 1.6em;">**stress_level:** Overall stress level reported by the student, with values from 0 (low stress) to 2 (high stress).
+
+
+
+## Objective
+
+Determine which specific factors have the most significant impact on students' stress levels. This insight is vital for understanding the primary drivers of stress among students.
+
+### Problem Statement:
+Identify and prioritize key factors influencing students' stress levels to develop targeted interventions and support systems within educational institutions.
+
+### STEP 1 - Data Cleaning
+-First Step would be to clean the data but the data is already clean as it has no null values or outliers.
+
+### STEP 2 - Data Preparation
+-Second Step would be standardization i.e. standardizing the dataset to follow the same format for better visualization and training of our predictive model.
+
+```{r}
+standardized_data <- scale(Stresslevels_in_students)
+standardized_data <- as.data.frame(standardized_data)
+```
+The scale() function centers and scales the columns of a dataset, making them have a mean of 0 and a standard deviation of 1. Now our data is ready for predictive analysis.
+
+## STEP 3 - Data Exploration (Part 1)
+```{r message=FALSE, warning=FALSE}
+# Load required libraries
+library(plotly)
+library(dplyr)
+
+# Create a 3D scatter plot
+plot_ly(data = standardized_data, 
+        x = ~anxiety_level, 
+        y = ~self_esteem, 
+        z = ~mental_health_history, 
+        color = ~stress_level,
+        colors = c('#fdae61', '#fee08b', '#d73027'), 
+        marker = list(size = 5),
+        text = paste("Stress Level: ", standardized_data$stress_level)) %>%
+  layout(scene = list(xaxis = list(title = 'Anxiety Level'),
+                      yaxis = list(title = 'Self Esteem'),
+                      zaxis = list(title = 'Mental Health History')))
+
+```
+
+The 3D scatter plot allows you to visualize the relationship between three variables: anxiety_level, self_esteem, and stress_level. Clusters indicate groups of students with similar anxiety levels, self-esteem, and stress levels.
+
+## STEP 3 - Data Exploration (Part 2)
+```{r}
+# Load required library
+library(tidyr)
+
+# Calculate the correlations between all features and stress_level
+correlation_matrix <- cor(standardized_data)
+
+# Reshape the correlation matrix to long format
+correlation_long <- as.data.frame(as.table(correlation_matrix))
+names(correlation_long) <- c("Feature1", "Feature2", "Correlation")
+
+# Create a heatmap
+library(ggplot2)
+ggplot(data = correlation_long, aes(x = Feature1, y = Feature2, fill = Correlation)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "red") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Features") +
+  ylab("Features") +
+  ggtitle("Correlation Heatmap with Stress Level")
+
+```
+
+## Insights
+
+The correlation coefficient between stress level and health indicators is positive and significant for most of the health indicators. This means that as stress level increases, so do the health indicators. This suggests that stress is associated with a number of negative health consequences.
+
+The strongest correlation is between stress level and burnout, with a correlation coefficient of 0.675. This suggests that burnout is a very common consequence of stress.
+
+Other health indicators that are strongly correlated with stress level include:
+
+-Depression (correlation coefficient = 0.606)<br/>
+-Anxiety (correlation coefficient = 0.598)<br/>
+-Headaches (correlation coefficient = 0.485)<br/>
+-Sleep quality (correlation coefficient = -0.479)<br/>
+
+The negative correlation between stress level and sleep quality suggests that stress can lead to poor sleep quality. Poor sleep quality, in turn, can lead to increased stress levels. This can create a vicious cycle.
+
+
+## STEP 4 and STEP 5
+
+### STEP 4 - Data Splitting
+
+```{r message=FALSE, warning=FALSE}
+# Load the caret package
+library(caret)
+
+# Set a seed for reproducibility
+set.seed(42)
+
+# Split the data into 80% training and 20% testing sets
+splitIndex <- createDataPartition(Stresslevels_in_students$stress_level, p = 0.8, 
+                                  list = FALSE, 
+                                  times = 1)
+
+# Create the training and testing sets
+train_data <- Stresslevels_in_students[splitIndex, ]
+test_data <- Stresslevels_in_students[-splitIndex, ]
+
+```
+The training set (train_data) contains 80% of the data, and the testing set (test_data) contains the remaining 20%.
+
+### STEP5 - Model Selection and Building (Desicion Tree)
+
+```{r warning=FALSE, message=FALSE}
+# Load the rpart package
+library(rpart)
+
+# Create the decision tree model using the training data
+decision_tree <- rpart(stress_level ~ ., data = train_data, method = "anova")
+
+# Print the decision tree summary
+print(decision_tree)
+
+# Make predictions on the test data
+predictions <- predict(decision_tree, test_data)
+
+```
+## STEP 6 Model Evaluation (Regression)
+
+```{r echo=TRUE}
+mse <- mean((test_data$stress_level - predictions)^2)
+print(paste("Mean Squared Error: ", mse))
+
+```
+<br/>
+<span style="font-size: 1.6em;">The MSE value represents the average squared difference between the predicted stress levels and the actual stress levels in the test data.
+
+<span style="font-size: 1.6em;">A lower MSE indicates that, on average, the model's predictions are closer to the actual stress levels.
+
+<span style="font-size: 1.6em;">In this case, an MSE of 0.196 suggests that, on average, the squared difference between the predicted and actual stress levels is quite small.
+
+
+## STEP 7 - Visualization 1
+```{r warning=FALSE}
+# Load the required packages
+library(rpart)
+library(rpart.plot)
+
+
+# Visualize the decision tree with specific dimensions and styling
+rpart.plot(decision_tree, main = "Decision Tree Visualization", extra = 1, cex = 0.8, 
+           uniform = TRUE, branch = 0.6, box.palette = "auto",
+           tweak = 1.2, faclen = 1)
+
+
+
+```
+
+## STEP 7 - Interpretation 1
+
+### A few interpretation that can be made from the descision tree:
+
+<ul style="color: black; font-family: 'Arial';">
+<li>Students who are involved in extracurricular activities are predicted to have lower stress levels.</li>
+<li> Students who are not involved in extracurricular activities are predicted to have higher stress levels.</li>
+<li> Students with high academic performance are predicted to have lower stress levels.</li>
+<li> Students with low academic performance are predicted to have higher stress levels.</li>
+<li> Students with high self-esteem are predicted to have lower stress levels.</li>
+<li> Students with low self-esteem are predicted to have higher stress levels.</li>
+<li> Students with met basic needs are predicted to have lower stress levels.</li>
+<li> Students with unmet basic needs are predicted to have higher stress levels.</li>
+<li> Students with good living conditions are predicted to have lower stress levels.</li>
+<li> Students with poor living conditions are predicted to have higher stress levels.</li>
+<li> Students who are bullied are predicted to have higher stress levels.</li>
+</ul>
+
+
+## STEP 7 - Visualization 2
+
+```{r}
+# Get feature importance from the trained decision tree model
+feature_importance <- decision_tree$variable.importance
+
+# Plot feature importance
+library(ggplot2)
+ggplot(data = data.frame(Features = names(feature_importance), Importance = feature_importance),
+       aes(x = reorder(Features, -Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = "magenta") +
+  coord_flip() +
+  labs(x = "Features", y = "Importance", title = "Feature Importance")
+
+```
+<br/>**Interpretation** The plot shows that the two most important features in predicting stress levels are living conditions and future career concern. This is consistent with the interpretation of the decision tree itself.
+
+## Learning and Findings
+
+In this predictive data analysis project, we delved into a comprehensive dataset exploring multiple facets of students' lives, aiming to unravel the intricate web of factors contributing to their stress levels. Through exploratory data analysis, correlation analysis, and a decision tree regression model, we gained valuable insights into the influential aspects of student stress.
+
+### Key Findings:
+Extracurricular Activities & Academic Performance: Engagement in extracurricular activities correlates with lower stress levels. Conversely, students with lower academic performance tend to experience higher stress.
+
+Psychological Factors: Factors such as self-esteem play a crucial role. Students with higher self-esteem exhibit lower stress levels.
+
+Basic Needs & Living Conditions: Meeting basic needs and living in favorable conditions are associated with reduced stress.
+
+Social Dynamics: Bullying negatively impacts stress levels, indicating the importance of addressing social pressures.
+
+Future Concerns: Worries related to future career prospects elevate stress levels among students.
+
+## Useful Recommendations/Insights:
+
+<span style="font-size: 1.6em;">Interventions and Support: Schools should focus on promoting extracurricular involvement, enhancing self-esteem, and providing resources to meet students' basic needs.
+
+<span style="font-size: 1.6em;">Mental Health Support: Schools should offer counseling services to address psychological factors and cope with academic stressors.
+
+<span style="font-size: 1.6em;">Bullying Prevention: Implement anti-bullying programs and create a supportive environment to reduce social pressures.
+
+<span style="font-size: 1.6em;">Career Counseling: Provide comprehensive career guidance and counseling to alleviate students' concerns about their future.
+
+<span style="font-size: 1.6em;">Policy Implementation: Institutions should consider these findings while formulating policies aimed at reducing student stress, fostering a healthier learning environment.
+
+## References
+
+https://www.kaggle.com/datasets/rxnach/student-stress-factors-a-comprehensive-analysis/data
